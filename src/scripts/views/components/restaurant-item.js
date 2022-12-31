@@ -14,7 +14,15 @@ class RestaurantItem extends LitElement {
 
   .restaurant-image {
     width: 100%;
+    height: 100%;
     border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .restaurant-image-placeholder {
+    width: 100%;
+    height: 14rem;
+    overflow: hidden;
+    background-color: var(--color-skeleton);
   }
 
   .restaurant-summary {
@@ -25,6 +33,7 @@ class RestaurantItem extends LitElement {
     display: grid;
     grid-template-columns: 3fr 1fr;
     grid-template-rows: 1fr 1fr;
+    gap: 0.25rem;
   }
 
   .summary-title {
@@ -66,6 +75,14 @@ class RestaurantItem extends LitElement {
     background-color: var(--color-primary);
     color: #ffffff;
   }
+
+  .restaurant-card.skeleton .summary-title,
+  .restaurant-card.skeleton .summary-location,
+  .restaurant-card.skeleton .summary-rating,
+  .restaurant-card.skeleton .detail-link {
+    background-color: var(--color-skeleton);
+    color: var(--color-skeleton);
+  }
   `;
 
   static properties = {
@@ -76,21 +93,25 @@ class RestaurantItem extends LitElement {
         return undefined;
       },
     },
+    skeleton: {},
   };
 
   constructor(restaurant) {
     super();
     this.restaurant = restaurant || {};
+    this.skeleton = false;
   }
 
-  render() {
+  _renderActual() {
     return html`
     <div class="restaurant-card">
-      <picture>
-        <source media="(min-width: 992px)" srcset="${AppConfig.BASE_IMAGE_API_URL}/large/${this.restaurant?.pictureId}">
-        <source media="(min-width: 768px)" srcset="${AppConfig.BASE_IMAGE_API_URL}/medium/${this.restaurant?.pictureId}">
-        <img class="restaurant-image" src="${AppConfig.BASE_IMAGE_API_URL}/small/${this.restaurant?.pictureId}" alt="View of ${this.restaurant?.name}" loading="lazy">
-      </picture>
+      <div class="restaurant-image-placeholder">
+        <picture>
+          <source media="(min-width: 992px)" srcset="${AppConfig.BASE_IMAGE_API_URL}/large/${this.restaurant?.pictureId}">
+          <source media="(min-width: 768px)" srcset="${AppConfig.BASE_IMAGE_API_URL}/medium/${this.restaurant?.pictureId}">
+          <img class="lazyload restaurant-image" src="${AppConfig.BASE_IMAGE_API_URL}/small/${this.restaurant?.pictureId}" alt="View of ${this.restaurant?.name}">
+        </picture>
+      </div>
       <article class="restaurant-summary">
         <div class="summary-heading">
           <h3 class="summary-title">${this.restaurant?.name}</h3>
@@ -108,6 +129,34 @@ class RestaurantItem extends LitElement {
       </a>
     </div>
     `;
+  }
+
+  static _renderSkeleton() {
+    return html`
+    <div class="restaurant-card skeleton">
+      <div class="restaurant-image-placeholder">
+      </div>
+      <article class="restaurant-summary">
+        <div class="summary-heading">
+          <h3 class="summary-title">title</h3>
+          <p class="summary-location">city</p>
+          <div class="summary-rating">
+            <span role="rating">5</span>
+          </div>
+        </div>
+      </article>
+      <a class="detail-link">
+      SEE DETAIL
+      </a>
+    </div>
+    `;
+  }
+
+  render() {
+    if (this.skeleton) {
+      return RestaurantItem._renderSkeleton();
+    }
+    return this._renderActual();
   }
 }
 customElements.define('restaurant-item', RestaurantItem);

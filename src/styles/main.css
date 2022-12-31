@@ -6,6 +6,8 @@
   --color-secondary: #d3d3d3;
   --color-secondary-dark: #808080;
   --color-light: #f9f9f9;
+  --color-skeleton: #f0f0f0;
+  --color-loading: #00bbff;
 }
 
 html {
@@ -134,7 +136,7 @@ section {
 }
 #random-pick restaurant-item {
   border: none;
-  max-width: 35rem;
+  max-width: 30rem;
   margin: 0 auto;
 }
 
@@ -146,6 +148,12 @@ section {
   margin-top: 3rem;
   margin-left: auto;
   margin-right: auto;
+}
+
+.restaurant-list restaurant-item {
+  min-width: 20rem;
+  max-width: 30rem;
+  justify-self: center;
 }
 
 .favorite-button {
@@ -180,6 +188,11 @@ footer {
   .hero-description {
     text-align: center;
     margin: 0 auto;
+  }
+
+  .restaurant-list restaurant-item {
+    max-width: none;
+    justify-self: stretch;
   }
 
   .hero-image {

@@ -18,8 +18,11 @@ class RestaurantDetail extends LitElement {
 
   .image-container {
     margin-bottom: 1rem;
-    padding: 0.5rem;
     border: 1px solid var(--color-secondary);
+    width: 100%;
+    min-height: 10rem;
+    overflow: hidden;
+    background-color: var(--color-skeleton);
   }
 
   .detail-column {
@@ -52,6 +55,11 @@ class RestaurantDetail extends LitElement {
 
   review-card {
     margin: 1rem 0;
+  }
+
+  .container.skeleton .content {
+    background-color: var(--color-skeleton);
+    color: var(--color-skeleton);
   }
 
   @media screen and (min-width: 768px) {
@@ -93,15 +101,69 @@ class RestaurantDetail extends LitElement {
 
   static properties = {
     restaurant: {},
+    skeleton: { type: Boolean },
   };
 
   constructor(restaurant) {
     super();
 
     this.restaurant = restaurant || {};
+    this.skeleton = false;
   }
 
-  render() {
+  static _renderSkeleton() {
+    const foods = Array(10).fill('food');
+    const drinks = Array(10).fill('drink');
+    const customerReviews = Array(3).fill({});
+
+    return html`
+    <div class="container skeleton">
+      <section class="overview">
+        <h1 class="content">name</h1>
+        <div class="image-container">
+        </div>
+        <article class="detail-column">
+          <h2>City</h2>
+          <p class="content">city</p>
+        </article>
+        <article class="detail-column">
+          <h2>Address</h2>
+          <p class="content">address</p>
+        </article>
+        <article class="overview-description">
+          <h2>Description</h2>
+          <p class="content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</p>
+        </article>
+        <h2>Menus</h2>
+        <div class="menus-list">
+          <article>
+            <h3>Foods</h3>
+            <menus-ul skeleton>
+              ${foods.map((food) => html`
+              <li>${food}</li>
+              `)}
+            </menus-ul>
+          </article>
+          <article>
+            <h3>Drinks</h3>
+            <menus-ul skeleton>
+              ${drinks.map((drink) => html`
+              <li>${drink}</li>
+              `)}
+            </menus-ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="reviews">
+        <h2>Customer Reviews</h2>
+        ${customerReviews.map(() => html`<review-card skeleton></review-card>`)}
+      </section>
+    </div>
+    `;
+  }
+
+  _renderActual() {
     return html`
     <div class="container">
       <section class="overview">
@@ -148,6 +210,13 @@ class RestaurantDetail extends LitElement {
       </section>
     </div>
     `;
+  }
+
+  render() {
+    if (this.skeleton) {
+      return RestaurantDetail._renderSkeleton();
+    }
+    return this._renderActual();
   }
 }
 

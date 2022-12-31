@@ -1,11 +1,11 @@
 import Events from '../config/events';
-import SpinnerBorder from '../views/components/spinner-border';
+import LoadingIndicator from '../views/components/loading-indicator';
 
 const LoadingOverlay = {
   init({ mainContent }) {
     this._mainContent = mainContent;
-    this._spinnerBorder = new SpinnerBorder();
-    this._spinnerBorder.fullwidth = true;
+    this._loadingIndicator = new LoadingIndicator();
+    this._loadingIndicator.fullwidth = true;
 
     this._setupListener();
   },
@@ -18,11 +18,11 @@ const LoadingOverlay = {
   },
 
   _showLoading() {
-    this._mainContent.appendChild(this._spinnerBorder);
+    this._mainContent.appendChild(this._loadingIndicator);
   },
 
   _hideLoading() {
-    this._spinnerBorder.remove();
+    this._loadingIndicator.remove();
   },
 
   async _errorLoading(event) {
@@ -38,11 +38,11 @@ const LoadingOverlay = {
     this._countDownSeconds = seconds;
 
     const countDown = () => {
-      this._spinnerBorder.text = `Failed to load, retrying in ${this._countDownSeconds}`;
+      this._hideLoading();
 
       if (this._countDownSeconds === 0) {
         callback();
-        this._spinnerBorder.text = 'Loading...';
+        this._showLoading();
         return;
       }
 

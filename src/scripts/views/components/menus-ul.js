@@ -6,7 +6,7 @@ class MenusUl extends LitElement {
     padding: inherit;
   }
 
-  ul {
+  .nospace {
     margin: 0;
     padding: 0;
   }
@@ -27,12 +27,25 @@ class MenusUl extends LitElement {
     border-style: solid;
     border-color: var(--color-secondary);
   }
+
+  .skeleton ::slotted(li) {
+    background-color: var(--color-skeleton);
+    color: var(--color-skeleton);
+  }
   `;
 
-  // eslint-disable-next-line class-methods-use-this
+  static properties = {
+    skeleton: { type: Boolean },
+  };
+
+  constructor() {
+    super();
+    this.skeleton = false;
+  }
+
   render() {
     return html`
-    <ul>
+    <ul class="nospace ${this.skeleton ? 'skeleton' : ''}">
       <slot></slot>
     </ul>
     `;

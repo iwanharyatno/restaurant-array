@@ -12,10 +12,13 @@ const Favorite = {
   },
   async postRender() {
     document.title = 'Your Favorite Restaurants';
+    const favoritedRestaurantsContainer = document.querySelector('.restaurant-list');
 
     const fetchData = async () => {
-      const favoritedRestaurantsContainer = document.querySelector('.restaurant-list');
       const favoritedRestaurants = await FavoriteRestaurantIdb.getAll(fetchData);
+
+      favoritedRestaurantsContainer.innerHTML = '';
+
       if (favoritedRestaurants.length === 0) {
         favoritedRestaurantsContainer.innerHTML = '<p>No data</p>';
       }
@@ -25,6 +28,15 @@ const Favorite = {
         );
       });
     };
+
+    let skeletonItem = new RestaurantItem();
+    skeletonItem.skeleton = true;
+
+    for (let i = 0; i < 6; i++) {
+      skeletonItem = new RestaurantItem();
+      skeletonItem.skeleton = true;
+      favoritedRestaurantsContainer.appendChild(skeletonItem);
+    }
 
     await fetchData();
   },

@@ -12,12 +12,13 @@ const Detail = {
     `;
   },
   async postRender() {
+    const restaurantDetailField = document.querySelector('#restaurant-detail');
+
     const fetchData = async () => {
       const url = UrlParser.parseActiveUrlWithoutCombiner();
       const restaurant = await Restaurant.get(url.id, fetchData);
       const restaurantDetail = new RestaurantDetail(restaurant);
 
-      const restaurantDetailField = document.querySelector('#restaurant-detail');
       restaurantDetailField.innerHTML = '';
       restaurantDetailField.appendChild(restaurantDetail);
 
@@ -30,6 +31,7 @@ const Detail = {
       document.title = `Restorray Detail - ${restaurant.name}`;
     };
 
+    restaurantDetailField.innerHTML = '<restaurant-detail skeleton></restaurant-detail>';
     await fetchData();
   },
 };

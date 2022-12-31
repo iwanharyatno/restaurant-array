@@ -13,7 +13,7 @@ class ReviewCard extends LitElement {
     padding: 1rem;
   }
 
-  .review h3 {
+  .review-reviewer {
     font-size: 1rem;
     margin: 0;
   }
@@ -25,18 +25,27 @@ class ReviewCard extends LitElement {
   .review-content {
     padding: 0 1rem;
   }
+
+  .review.skeleton .review-reviewer,
+  .review.skeleton .review-date,
+  .review.skeleton .review-content {
+    background-color: var(--color-skeleton);
+    color: var(--color-skeleton);
+  }
   `;
 
   static properties = {
     reviewData: {},
+    skeleton: { type: Boolean },
   };
 
   constructor(reviewData) {
     super();
     this.reviewData = reviewData || {};
+    this.skeleton = false;
   }
 
-  render() {
+  _renderActual() {
     return html`
     <div class="review" role="review">
       <div class="review-meta">
@@ -46,6 +55,25 @@ class ReviewCard extends LitElement {
       <p class="review-content">${this.reviewData.review}</p>
     </div>
     `;
+  }
+
+  static _renderSkeleton() {
+    return html`
+    <div class="review skeleton">
+      <div class="review-meta">
+        <h3 class="review-reviewer">reviewer</h3>
+        <span class="review-date">31-12-2022</span>
+      </div>
+      <p class="review-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+    </div>
+    `;
+  }
+
+  render() {
+    if (this.skeleton) {
+      return ReviewCard._renderSkeleton();
+    }
+    return this._renderActual();
   }
 }
 customElements.define('review-card', ReviewCard);

@@ -36,19 +36,19 @@ const Home = {
     `;
   },
   async postRender() {
+    const restaurantListField = document.querySelector('.restaurant-list');
+    const randomRestaurantField = document.querySelector('#random-pick');
+
     const fetchData = async () => {
       document.title = 'Restorray - Find your next dining site.';
 
       const restaurants = await Restaurant.getAll(fetchData) || [];
 
-      const restaurantListField = document.querySelector('.restaurant-list');
-      const randomRestaurantField = document.querySelector('#random-pick');
+      const randomRestaurant = new RestaurantItem();
+      randomRestaurant.restaurant = Restaurant.getRandom(restaurants);
 
       restaurantListField.innerHTML = '';
       randomRestaurantField.innerHTML = '';
-
-      const randomRestaurant = new RestaurantItem();
-      randomRestaurant.restaurant = Restaurant.getRandom(restaurants);
 
       randomRestaurantField.appendChild(randomRestaurant);
       restaurants
@@ -60,6 +60,16 @@ const Home = {
         });
     };
 
+    let skeletonItem = new RestaurantItem();
+    skeletonItem.skeleton = true;
+
+    randomRestaurantField.appendChild(skeletonItem);
+
+    for (let i = 0; i < 18; i++) {
+      skeletonItem = new RestaurantItem();
+      skeletonItem.skeleton = true;
+      restaurantListField.appendChild(skeletonItem);
+    }
     await fetchData();
   },
 };
