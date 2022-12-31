@@ -3,86 +3,6 @@ import AppConfig from '../../config/app';
 
 class RestaurantItem extends LitElement {
   static styles = css`
-  .restaurant-card {
-    background-color: #ffffff;
-    border: 1px solid var(--color-secondary);
-    border-radius: 0.5rem;
-    max-width: inherit;
-    margin: inherit;
-    overflow: hidden;
-  }
-
-  .restaurant-image {
-    width: 100%;
-    height: 100%;
-    border-radius: 0.5rem 0.5rem 0 0;
-  }
-
-  .restaurant-image-placeholder {
-    width: 100%;
-    height: 14rem;
-    overflow: hidden;
-    background-color: var(--color-skeleton);
-  }
-
-  .restaurant-summary {
-    padding: 1rem;
-  }
-
-  .summary-heading {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 0.25rem;
-  }
-
-  .summary-title {
-    margin: 0;
-  }
-
-  .summary-location {
-    grid-row: 2/3;
-    grid-column: 1/2;
-    margin: 0;
-    color: var(--color-secondary-dark);
-  }
-
-  .summary-rating {
-    grid-row: 1/3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
-    color: #B39A00;
-  }
-
-  .detail-link {
-    display: block;
-    padding: 1.3rem;
-    text-align: center;
-    text-decoration: none;
-    border-top: 1px solid var(--color-secondary);
-    color: var(--color-primary);
-    transition: background-color 0.5s;
-  }
-
-  .detail-link:hover {
-    text-decoration: underline;
-  }
-
-  .detail-link:focus {
-    background-color: var(--color-primary);
-    color: #ffffff;
-  }
-
-  .restaurant-card.skeleton .summary-title,
-  .restaurant-card.skeleton .summary-location,
-  .restaurant-card.skeleton .summary-rating,
-  .restaurant-card.skeleton .detail-link {
-    background-color: var(--color-skeleton);
-    color: var(--color-skeleton);
-  }
   `;
 
   static properties = {
@@ -102,14 +22,18 @@ class RestaurantItem extends LitElement {
     this.skeleton = false;
   }
 
+  createRenderRoot() {
+    return this;
+  }
+
   _renderActual() {
     return html`
     <div class="restaurant-card">
       <div class="restaurant-image-placeholder">
         <picture>
-          <source media="(min-width: 992px)" srcset="${AppConfig.BASE_IMAGE_API_URL}/large/${this.restaurant?.pictureId}">
-          <source media="(min-width: 768px)" srcset="${AppConfig.BASE_IMAGE_API_URL}/medium/${this.restaurant?.pictureId}">
-          <img class="lazyload restaurant-image" src="${AppConfig.BASE_IMAGE_API_URL}/small/${this.restaurant?.pictureId}" alt="View of ${this.restaurant?.name}">
+          <source media="(min-width: 992px)" data-srcset="${AppConfig.BASE_IMAGE_API_URL}/large/${this.restaurant?.pictureId}">
+          <source media="(min-width: 768px)" data-srcset="${AppConfig.BASE_IMAGE_API_URL}/medium/${this.restaurant?.pictureId}">
+          <img class="lazyload restaurant-image" data-src="${AppConfig.BASE_IMAGE_API_URL}/small/${this.restaurant?.pictureId}" alt="View of ${this.restaurant?.name}">
         </picture>
       </div>
       <article class="restaurant-summary">
