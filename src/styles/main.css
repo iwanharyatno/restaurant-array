@@ -232,12 +232,6 @@ section {
   margin-right: auto;
 }
 
-.restaurant-list restaurant-item {
-  min-width: 20rem;
-  max-width: 30rem;
-  justify-self: center;
-}
-
 .favorite-button {
   position: fixed;
   bottom: 2rem;
