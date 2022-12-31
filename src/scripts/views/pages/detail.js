@@ -12,6 +12,7 @@ const Detail = {
     `;
   },
   async postRender() {
+    document.getElementById('main-content').focus();
     const restaurantDetailField = document.querySelector('#restaurant-detail');
 
     const fetchData = async () => {
