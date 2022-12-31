@@ -4,7 +4,7 @@ import RestaurantItem from '../components/restaurant-item';
 const Home = {
   render() {
     return `
-    <div class="hero" role="hero">
+    <div class="hero">
       <picture>
         <source media="(max-width: 600px)" srcset="images/hero-image_4-small.jpg" type="image/jpg">
         <img class="hero-image" src="images/hero-image_4.jpg" alt="">
