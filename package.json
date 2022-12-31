@@ -6,7 +6,7 @@
   "scripts": {
     "prestart-dev": "node ./resize-images.js",
     "start-dev": "webpack-dev-server --config webpack.dev.js",
-    "prebuild": "node ./prebuild.js",
+    "prebuild": "node ./resize-images.js",
     "build": "webpack --config webpack.prod.js",
     "test": "karma start",
     "lint": "eslint ./src/scripts",
@@ -23,6 +23,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
+    "dotenv": "^16.0.3",
     "eslint": "^8.29.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",

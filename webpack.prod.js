@@ -1,9 +1,22 @@
+require('dotenv').config();
+
 const webpack = require('webpack');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common');
+
+const plugins = [
+  new webpack.ProgressPlugin(),
+  new WorkboxWebpackPlugin.GenerateSW({
+    swDest: './service-worker.js',
+  }),
+];
+
+if (process.env.MODE !== 'production') {
+  plugins.push(new BundleAnalyzerPlugin());
+}
 
 module.exports = merge(common, {
   mode: 'production',
@@ -47,11 +60,5 @@ module.exports = merge(common, {
       },
     },
   },
-  plugins: [
-    new webpack.ProgressPlugin(),
-    new WorkboxWebpackPlugin.GenerateSW({
-      swDest: './service-worker.js',
-    }),
-    new BundleAnalyzerPlugin(),
-  ],
+  plugins,
 });
