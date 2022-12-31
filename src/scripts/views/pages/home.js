@@ -36,28 +36,35 @@ const Home = {
     `;
   },
   async postRender() {
+    document.title = 'Restorray - Find your next dining site.';
     const restaurantListField = document.querySelector('.restaurant-list');
     const randomRestaurantField = document.querySelector('#random-pick');
 
+    let retryTimeout;
+
     const fetchData = async () => {
-      document.title = 'Restorray - Find your next dining site.';
+      try {
+        if (retryTimeout) clearTimeout(retryTimeout);
 
-      const restaurants = await Restaurant.getAll(fetchData) || [];
+        const restaurants = await Restaurant.getAll(fetchData) || [];
 
-      const randomRestaurant = new RestaurantItem();
-      randomRestaurant.restaurant = Restaurant.getRandom(restaurants);
+        const randomRestaurant = new RestaurantItem();
+        randomRestaurant.restaurant = Restaurant.getRandom(restaurants);
 
-      restaurantListField.innerHTML = '';
-      randomRestaurantField.innerHTML = '';
+        restaurantListField.innerHTML = '';
+        randomRestaurantField.innerHTML = '';
 
-      randomRestaurantField.appendChild(randomRestaurant);
-      restaurants
-        .filter((restaurant) => (restaurant.id !== randomRestaurant.restaurant.id))
-        .forEach((otherRestaurant) => {
-          restaurantListField.appendChild(
-            new RestaurantItem(otherRestaurant),
-          );
-        });
+        randomRestaurantField.appendChild(randomRestaurant);
+        restaurants
+          .filter((restaurant) => (restaurant.id !== randomRestaurant.restaurant.id))
+          .forEach((otherRestaurant) => {
+            restaurantListField.appendChild(
+              new RestaurantItem(otherRestaurant),
+            );
+          });
+      } catch (error) {
+        retryTimeout = setTimeout(fetchData, 500);
+      }
     };
 
     let skeletonItem = new RestaurantItem();

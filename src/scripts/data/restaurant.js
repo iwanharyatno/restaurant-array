@@ -1,13 +1,12 @@
 import AppConfig from '../config/app';
 
-import fetchWithEvent from '../utils/fetch-with-event';
-
 const ALL_RESTAURANT = `${AppConfig.BASE_API_URL}/list`;
 const SINGLE_RESTAURANT = `${AppConfig.BASE_API_URL}/detail`;
 
 const Restaurant = {
   async getAll(failedCallback = null) {
-    const data = await fetchWithEvent(ALL_RESTAURANT, { failedCallback });
+    const response = await fetch(ALL_RESTAURANT, { failedCallback });
+    const data = await response.json();
     return data.restaurants;
   },
 
@@ -20,7 +19,8 @@ const Restaurant = {
   },
 
   async get(id, failedCallback = null) {
-    const data = await fetchWithEvent(`${SINGLE_RESTAURANT}/${id}`, { failedCallback });
+    const response = await fetch(`${SINGLE_RESTAURANT}/${id}`, { failedCallback });
+    const data = await response.json();
     return data.restaurant;
   },
 };

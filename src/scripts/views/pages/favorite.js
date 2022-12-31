@@ -14,19 +14,27 @@ const Favorite = {
     document.title = 'Your Favorite Restaurants';
     const favoritedRestaurantsContainer = document.querySelector('.restaurant-list');
 
+    let retryTimeout;
+
     const fetchData = async () => {
-      const favoritedRestaurants = await FavoriteRestaurantIdb.getAll(fetchData);
+      if (retryTimeout) clearTimeout(retryTimeout);
 
-      favoritedRestaurantsContainer.innerHTML = '';
+      try {
+        const favoritedRestaurants = await FavoriteRestaurantIdb.getAll(fetchData);
 
-      if (favoritedRestaurants.length === 0) {
-        favoritedRestaurantsContainer.innerHTML = '<p>No data</p>';
+        favoritedRestaurantsContainer.innerHTML = '';
+
+        if (favoritedRestaurants.length === 0) {
+          favoritedRestaurantsContainer.innerHTML = '<p>No data</p>';
+        }
+        favoritedRestaurants.forEach((favoritedRestaurant) => {
+          favoritedRestaurantsContainer.appendChild(
+            new RestaurantItem(favoritedRestaurant),
+          );
+        });
+      } catch (error) {
+        retryTimeout = setTimeout(fetchData, 500);
       }
-      favoritedRestaurants.forEach((favoritedRestaurant) => {
-        favoritedRestaurantsContainer.appendChild(
-          new RestaurantItem(favoritedRestaurant),
-        );
-      });
     };
 
     let skeletonItem = new RestaurantItem();

@@ -15,21 +15,29 @@ const Detail = {
     document.getElementById('main-content').focus();
     const restaurantDetailField = document.querySelector('#restaurant-detail');
 
+    let retryTimeout;
+
     const fetchData = async () => {
-      const url = UrlParser.parseActiveUrlWithoutCombiner();
-      const restaurant = await Restaurant.get(url.id, fetchData);
-      const restaurantDetail = new RestaurantDetail(restaurant);
+      if (retryTimeout) clearTimeout(retryTimeout);
 
-      restaurantDetailField.innerHTML = '';
-      restaurantDetailField.appendChild(restaurantDetail);
+      try {
+        const url = UrlParser.parseActiveUrlWithoutCombiner();
+        const restaurant = await Restaurant.get(url.id, fetchData);
+        const restaurantDetail = new RestaurantDetail(restaurant);
 
-      const favoriteButtonContainer = document.querySelector('.favorite-button');
-      favoriteButtonContainer.innerHTML = '';
-      const favoriteButton = new FavoriteButton(restaurant, () => {
-        favoriteButtonContainer.appendChild(favoriteButton);
-      });
+        restaurantDetailField.innerHTML = '';
+        restaurantDetailField.appendChild(restaurantDetail);
 
-      document.title = `Restorray Detail - ${restaurant.name}`;
+        const favoriteButtonContainer = document.querySelector('.favorite-button');
+        favoriteButtonContainer.innerHTML = '';
+        const favoriteButton = new FavoriteButton(restaurant, () => {
+          favoriteButtonContainer.appendChild(favoriteButton);
+        });
+
+        document.title = `Restorray Detail - ${restaurant.name}`;
+      } catch (error) {
+        retryTimeout = setTimeout(fetchData, 500);
+      }
     };
 
     restaurantDetailField.innerHTML = '<restaurant-detail skeleton></restaurant-detail>';
