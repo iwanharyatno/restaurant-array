@@ -47,7 +47,7 @@ class ReviewCard extends LitElement {
 
   _renderActual() {
     return html`
-    <div class="review" role="review">
+    <div class="review">
       <div class="review-meta">
         <h3 class="review-reviewer">${this.reviewData.name}</h3>
         <span class="review-date">${this.reviewData.date}</span>
