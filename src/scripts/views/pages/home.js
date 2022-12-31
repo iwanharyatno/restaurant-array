@@ -6,7 +6,7 @@ const Home = {
     return `
     <div class="hero">
       <picture>
-        <source media="(max-width: 600px)" srcset="images/hero-image_4-small.jpg" type="image/jpg">
+        <source media="(max-width: 600px)" srcset="images/hero-image_4-medium.jpg" type="image/jpg">
         <img class="hero-image" src="images/hero-image_4.jpg" alt="">
       </picture>
       <article class="hero-description">

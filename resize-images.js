@@ -18,15 +18,15 @@ function resize({ filename, width, postfix }) {
 }
 
 fs.readdirSync(workingDirectory).forEach((image) => {
-  const smallImage = addPostfixToFileName(image, 'small');
-  if (fs.existsSync(smallImage) || image.match(/.*-(small|medium|large)\..*/)) {
+  const mediumImage = addPostfixToFileName(image, 'medium');
+  if (fs.existsSync(mediumImage) || image.match(/.*-(small|medium|large)\..*/)) {
     console.info(`The file ${image} has been resized before. Skipping...`);
     return;
   }
   resize({
     filename: image,
-    width: 480,
-    postfix: 'small',
+    width: 800,
+    postfix: 'medium',
   });
 });
 
