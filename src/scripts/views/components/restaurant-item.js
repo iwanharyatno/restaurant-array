@@ -31,7 +31,6 @@ class RestaurantItem extends LitElement {
     <div class="restaurant-card">
       <div class="restaurant-image-placeholder">
         <picture>
-          <source media="(min-width: 992px)" data-srcset="${AppConfig.BASE_IMAGE_API_URL}/large/${this.restaurant?.pictureId}">
           <source media="(min-width: 768px)" data-srcset="${AppConfig.BASE_IMAGE_API_URL}/medium/${this.restaurant?.pictureId}">
           <img class="lazyload restaurant-image" data-src="${AppConfig.BASE_IMAGE_API_URL}/small/${this.restaurant?.pictureId}" alt="View of ${this.restaurant?.name}">
         </picture>
