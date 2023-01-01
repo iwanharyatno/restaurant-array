@@ -58,8 +58,20 @@ class RestaurantDetail extends LitElement {
   }
 
   .container.skeleton .content {
-    background-color: var(--color-skeleton);
-    color: var(--color-skeleton);
+    background-image: linear-gradient(90deg, var(--color-skeleton) 20%, var(--color-skeleton-shine), var(--color-skeleton));
+    background-size: 200%;
+    color: transparent;
+    animation: shine 1s ease-out infinite;
+  }
+
+  @keyframes shine {
+    from {
+      background-position: 200%;
+    }
+    
+    to {
+      background-position: 0%;
+    }
   }
 
   @media screen and (min-width: 768px) {
@@ -120,7 +132,7 @@ class RestaurantDetail extends LitElement {
     <div class="container skeleton">
       <section class="overview">
         <h1 class="content">name</h1>
-        <div class="image-container">
+        <div class="image-container content">
         </div>
         <article class="detail-column">
           <h2>City</h2>

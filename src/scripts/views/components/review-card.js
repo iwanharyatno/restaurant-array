@@ -29,8 +29,20 @@ class ReviewCard extends LitElement {
   .review.skeleton .review-reviewer,
   .review.skeleton .review-date,
   .review.skeleton .review-content {
-    background-color: var(--color-skeleton);
-    color: var(--color-skeleton);
+    background-image: linear-gradient(90deg, var(--color-skeleton) 20%, var(--color-skeleton-shine), var(--color-skeleton));
+    background-size: 200%;
+    color: transparent;
+    animation: shine 1s ease-out infinite;
+  }
+
+  @keyframes shine {
+    from {
+      background-position: 200%;
+    }
+    
+    to {
+      background-position: 0%;
+    }
   }
   `;
 
