@@ -56,7 +56,7 @@ class RestaurantItem extends LitElement {
 
   static _renderSkeleton() {
     return html`
-    <div class="restaurant-card skeleton">
+    <div class="restaurant-card-skeleton">
       <div class="restaurant-image-placeholder">
       </div>
       <article class="restaurant-summary">

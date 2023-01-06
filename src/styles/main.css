@@ -129,7 +129,8 @@ section {
 /**
  * Restaurant Item
  */
-.restaurant-card {
+.restaurant-card,
+.restaurant-card-skeleton {
   background-color: #ffffff;
   border: 1px solid var(--color-secondary);
   border-radius: 0.5rem;
@@ -202,10 +203,10 @@ section {
   color: #ffffff;
 }
 
-.restaurant-card.skeleton .summary-title,
-.restaurant-card.skeleton .summary-location,
-.restaurant-card.skeleton .summary-rating,
-.restaurant-card.skeleton .detail-link {
+.restaurant-card-skeleton .summary-title,
+.restaurant-card-skeleton .summary-location,
+.restaurant-card-skeleton .summary-rating,
+.restaurant-card-skeleton .detail-link {
   background-image: linear-gradient(90deg, var(--color-skeleton) 20%, var(--color-skeleton-shine), var(--color-skeleton));
   background-size: 200%;
   color: transparent;
