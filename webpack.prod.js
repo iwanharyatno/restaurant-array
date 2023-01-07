@@ -2,11 +2,9 @@ require('dotenv').config();
 
 const webpack = require('webpack');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { merge } = require('webpack-merge');
-
-const ImageminWebpackPlugin = require('imagemin-webpack-plugin').default;
-const ImageminMozjpeg = require('imagemin-mozjpeg');
 
 const common = require('./webpack.common');
 
@@ -14,14 +12,6 @@ const plugins = [
   new webpack.ProgressPlugin(),
   new WorkboxWebpackPlugin.GenerateSW({
     swDest: './service-worker.js',
-  }),
-  new ImageminWebpackPlugin({
-    plugins: [
-      ImageminMozjpeg({
-        quality: 50,
-        progressive: true,
-      }),
-    ],
   }),
 ];
 
@@ -49,6 +39,18 @@ module.exports = merge(common, {
     ],
   },
   optimization: {
+    minimizer: [
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.imageminMinify,
+          options: {
+            plugins: [
+              ['imagemin-mozjpeg', { quality: 50 }]
+            ],
+          },
+        },
+      }),
+    ],
     splitChunks: {
       chunks: 'all',
       minSize: 20000,
