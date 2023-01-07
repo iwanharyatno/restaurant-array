@@ -15,7 +15,7 @@ exports.config = {
       url: 'http://localhost:8080',
       show: true,
       windowSize: '800x600',
-      waitForAction: 1500,
+      waitForAction: 2000,
       waitForNavigation: 'networkidle0',
     },
   },
