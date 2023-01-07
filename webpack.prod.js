@@ -45,7 +45,7 @@ module.exports = merge(common, {
           implementation: ImageMinimizerPlugin.imageminMinify,
           options: {
             plugins: [
-              'imagemin-mozjpeg',
+              ['imagemin-mozjpeg', { quality: 50 }]
             ],
           },
         },
