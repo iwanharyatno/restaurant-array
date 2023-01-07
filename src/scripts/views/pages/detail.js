@@ -12,7 +12,7 @@ const Detail = {
     `;
   },
   async postRender() {
-    document.getElementById('main-content').focus();
+    this._scrollTop();
     const restaurantDetailField = document.querySelector('#restaurant-detail');
 
     let retryTimeout;
@@ -42,6 +42,10 @@ const Detail = {
 
     restaurantDetailField.innerHTML = '<restaurant-detail skeleton></restaurant-detail>';
     await fetchData();
+  },
+  _scrollTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   },
 };
 
